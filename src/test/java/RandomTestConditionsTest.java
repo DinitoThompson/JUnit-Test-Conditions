@@ -4,73 +4,85 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RandomTestConditionsTest {
 
+    String correctEmail = "dinitothompson@gmail.com";
+    String incorrectEmail = "dinitothompson@yahoo.com";
+    String incorrectEmail2 = "dinitothompson%yahoo.com";
+    String correctPhoneNumber = "+18763671273";
+    String incorrectPhoneNumber = "+14452343355";
+
+    double upperClassSalary = 1000000.0;
+    double middleClassSalary = 600000.0;
+    double lowerClassSalary = 400000.0;
+
     @Test
-    void oneMillionDollarSalaryShouldPay250000 () {
+    void testSalaryAfterTax_Given1Million_Expect750000 () {
         var testConditions = new RandomTestConditions();
         assertEquals(750000, testConditions.calculateSalaryAfterTax(1000000.00));
     }
 
     @Test
-    void taxRateFor1000000SalaryShouldBe250000 () {
+    void testSalaryBasedOnTax_Given1Million_RateOf25_Expect250000 () {
         var testConditions = new RandomTestConditions();
         assertEquals(250000.0, testConditions.calculateTaxBasedOnSalary(1000000));
     }
 
     @Test
-    void numbersThatStartWithPlus1876ShouldBeAllowed () {
+    void testVerifyJamaicanNumber_GivenCorrectNumber_ExpectTure() {
         var testConditions = new RandomTestConditions();
-        assertTrue(testConditions.verifyJamaicanNumber("+18763671273"));
+        assertTrue(testConditions.verifyJamaicanNumber(correctPhoneNumber));
     }
 
     @Test
-    void numbersThatDontStartWithPlus1876ShouldFail () {
+    void testVerifyJamaicanNumber_GivenIncorrectNumber_ExpectFalse () {
         var testConditions = new RandomTestConditions();
-        assertFalse(testConditions.verifyJamaicanNumber("+14452343355"));
+        assertFalse(testConditions.verifyJamaicanNumber(incorrectPhoneNumber));
     }
 
-    String correctEmail = "dinitothompson@gmail.com";
-    String incorrectEmail = "dinitothompson@yahoo.com";
-    String incorrectEmail2 = "dinitothompson%yahoo.com";
-
     @Test
-    void correctEmailShouldReturnTrue () {
+    void testVerifyGmailEmail_GivenCorrectEmail_ExpectTrue () {
         var textConditions = new RandomTestConditions();
         assertTrue(textConditions.verifyGmailEmail(correctEmail));
     }
 
     @Test
-    void incorrectEmailShouldReturnFalse () {
+    void testVerifyGmailEmail_GivenIncorrectEmail_ExpectFalse () {
         var textConditions = new RandomTestConditions();
         assertFalse(textConditions.verifyGmailEmail(incorrectEmail));
     }
 
     @Test
-    void incorrectEmail2ShouldReturnFalse () {
+    void testVerifyGmailEmail_GivenIncorrectEmail2_ExpectFalse () {
         var textConditions = new RandomTestConditions();
         assertFalse(textConditions.verifyGmailEmail(incorrectEmail2));
     }
 
     @Test
-    void thisUserQualifiesToAttendTheParty () {
+    void testUpperClassParty_GivenValidData_ExpectTrue () {
         var testConditions = new RandomTestConditions();
-        assertTrue(testConditions.middleClassParty(correctEmail, "+18763571273", 1000000.0));
+        assertTrue(testConditions.upperClassParty(correctEmail, correctPhoneNumber, upperClassSalary));
     }
 
     @Test
-    void thisUsersShouldNotToAttendThePartyDueToPhoneNumber () {
+    void testUpperClassParty_GivenInvalidPhoneNumber_ExpectFalse () {
         var testConditions = new RandomTestConditions();
-        assertFalse(testConditions.middleClassParty(correctEmail, "+18723571273", 1000000.0));
-    }
-    @Test
-    void thisUsersShouldNotToAttendThePartyDueToSalary () {
-        var testConditions = new RandomTestConditions();
-        assertFalse(testConditions.middleClassParty(correctEmail, "+18763571273", 500000.0));
+        assertFalse(testConditions.upperClassParty(correctEmail, incorrectPhoneNumber, upperClassSalary));
     }
 
     @Test
-    void thisUsersShouldNotToAttendThePartyDueToEmail () {
+    void testUpperClassParty_GivenInvalidSalary_ExpectFalse () {
         var testConditions = new RandomTestConditions();
-        assertFalse(testConditions.middleClassParty(incorrectEmail, "+18763571273", 5000000.0));
+        assertFalse(testConditions.upperClassParty(correctEmail, correctPhoneNumber, lowerClassSalary));
     }
 
+    @Test
+    void testUpperClassParty_GivenInvalidEmail_ExpectFalse () {
+        var testConditions = new RandomTestConditions();
+        assertFalse(testConditions.upperClassParty(incorrectEmail, correctPhoneNumber, upperClassSalary));
+    }
+
+    @Test
+    void testCanMiddleClassAttendUpperClassParty_GivenMiddleClassSalary_ExpectFalse () {
+        var testConditions = new RandomTestConditions();
+        assertFalse(testConditions.upperClassParty(correctEmail, correctPhoneNumber, middleClassSalary));
+    }
 }

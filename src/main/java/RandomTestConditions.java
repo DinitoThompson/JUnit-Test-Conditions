@@ -24,14 +24,19 @@ public class RandomTestConditions {
         else return false;
     }
 
-    public boolean middleClassParty (String email, String phoneNumber, double salary) {
-        if (verifyGmailEmail(email)) {
-            if (verifyJamaicanNumber(phoneNumber)) {
-                if (calculateSalaryAfterTax(salary) >= qualifyingIncomeAfterTax) {
-                    return true;
-                }
-            } return false;
-        } return false;
+    public boolean upperClassParty(String email, String phoneNumber, double salary) {
+        if (!verifyGmailEmail(email)) {
+            return false;
+        }
+        if (!verifyJamaicanNumber(phoneNumber)) {
+           return false;
+        }
+        if (calculateSalaryAfterTax(salary) >= qualifyingIncomeAfterTax) {
+            return true;
+        }
+        return false;
     }
+
+
 
 }
