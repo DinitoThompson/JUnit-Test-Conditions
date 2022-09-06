@@ -50,4 +50,27 @@ class RandomTestConditionsTest {
         assertFalse(textConditions.verifyGmailEmail(incorrectEmail2));
     }
 
+    @Test
+    void thisUserQualifiesToAttendTheParty () {
+        var testConditions = new RandomTestConditions();
+        assertTrue(testConditions.middleClassParty(correctEmail, "+18763571273", 1000000.0));
+    }
+
+    @Test
+    void thisUsersShouldNotToAttendThePartyDueToPhoneNumber () {
+        var testConditions = new RandomTestConditions();
+        assertFalse(testConditions.middleClassParty(correctEmail, "+18723571273", 1000000.0));
+    }
+    @Test
+    void thisUsersShouldNotToAttendThePartyDueToSalary () {
+        var testConditions = new RandomTestConditions();
+        assertFalse(testConditions.middleClassParty(correctEmail, "+18763571273", 500000.0));
+    }
+
+    @Test
+    void thisUsersShouldNotToAttendThePartyDueToEmail () {
+        var testConditions = new RandomTestConditions();
+        assertFalse(testConditions.middleClassParty(incorrectEmail, "+18763571273", 5000000.0));
+    }
+
 }
